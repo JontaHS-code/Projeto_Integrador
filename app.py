@@ -10,6 +10,8 @@ import random
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from urllib.parse import urlparse
+import copy
+
 
 # ---------------------------
 # CARREGA VARIÁVEIS DE AMBIENTE
