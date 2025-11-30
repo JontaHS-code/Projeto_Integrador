@@ -1,3 +1,6 @@
+# ---------------------------
+# IMPORTS
+# ---------------------------
 from flask import Flask, request, jsonify, render_template
 import google.generativeai as genai
 import os
@@ -6,16 +9,42 @@ from flask_cors import CORS
 import random
 import psycopg2
 from psycopg2.extras import RealDictCursor
-import json
-import copy
-import requests
+from urllib.parse import urlparse
 
+# ---------------------------
+# CARREGA VARIÁVEIS DE AMBIENTE
+# ---------------------------
 load_dotenv()
+
+# ---------------------------
+# CONFIGURAÇÃO DO FLASK
+# ---------------------------
 app = Flask(__name__)
 CORS(app)
 
+# ---------------------------
+# CHAVE DA API GEMINI
+# ---------------------------
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+# ---------------------------
+# CONEXÃO COM O POSTGRESQL DO RENDER
+# ---------------------------
 DATABASE_URL = os.getenv("DATABASE_URL")
+url = urlparse(DATABASE_URL)
+
+try:
+    conn = psycopg2.connect(
+        dbname=url.path[1:],          # remove a barra inicial
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port,
+        cursor_factory=RealDictCursor
+    )
+    print("Conexão com o banco realizada com sucesso!")
+except Exception as e:
+    print("Erro de conexão com o banco:", e)
 
 # Configurar a API do Gemini
 genai.configure(api_key=GEMINI_API_KEY)
