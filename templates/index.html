@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PetMatch</title>
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='images/dog.ico') }}"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="header">
+        <div class="logo-with-image">
+          <img
+            src="{{ url_for('static', filename='images/logo_teste.png') }}"
+            alt="Logo PetMatch"
+            class="logo-image"
+          />
+          <div class="logo-container">
+            <div class="logo-text">
+              <div class="main">PetMatch</div>
+              <div class="sub">Do lar ao coração</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="messages-container" id="messages-container">
+        <!-- Mensagens aparecerão aqui -->
+      </div>
+
+      <div class="input-container" id="input-container">
+        <div class="input-box">
+          <textarea
+            id="message-input"
+            placeholder="Digite sua mensagem..."
+            rows="1"
+            autocomplete="off"
+            disabled
+          ></textarea>
+          <button class="send-button" id="send-button" disabled>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button class="restart-button" id="restart-button" style="display: none">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+          <path d="M3 3v5h5"></path>
+        </svg>
+        Nova Busca
+      </button>
+    </div>
+
+    <!-- Modal de Adoção -->
+    <div class="adoption-modal" id="adoption-modal" style="display: none">
+      <div class="adoption-modal-content">
+        <h3>Formulário de Adoção</h3>
+        <form id="adoption-form">
+          <input type="hidden" id="adoption-pet-id" />
+          <input type="hidden" id="adoption-pet-name" />
+
+          <div class="form-section">
+            <h4>📝 Suas Informações</h4>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="adoption-nome">Nome Completo *</label>
+                <input
+                  type="text"
+                  id="adoption-nome"
+                  required
+                  placeholder="Seu nome completo"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="adoption-email">Email *</label>
+                <input
+                  type="email"
+                  id="adoption-email"
+                  required
+                  placeholder="seu@email.com"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="adoption-telefone">Telefone *</label>
+                <input
+                  type="tel"
+                  id="adoption-telefone"
+                  required
+                  placeholder="(11) 99999-9999"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="adoption-whatsapp">WhatsApp</label>
+                <input
+                  type="tel"
+                  id="adoption-whatsapp"
+                  placeholder="(11) 99999-9999"
+                />
+              </div>
+
+              <div class="form-group full-width">
+                <label for="adoption-endereco">Endereço Completo *</label>
+                <input
+                  type="text"
+                  id="adoption-endereco"
+                  required
+                  placeholder="Rua, número, bairro"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="adoption-cidade">Cidade *</label>
+                <input
+                  type="text"
+                  id="adoption-cidade"
+                  required
+                  placeholder="Sua cidade"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="adoption-estado">Estado *</label>
+                <select id="adoption-estado" required>
+                  <option value="">Selecione...</option>
+                  <option value="AC">Acre</option>
+                  <option value="AL">Alagoas</option>
+                  <option value="AP">Amapá</option>
+                  <option value="AM">Amazonas</option>
+                  <option value="BA">Bahia</option>
+                  <option value="CE">Ceará</option>
+                  <option value="DF">Distrito Federal</option>
+                  <option value="ES">Espírito Santo</option>
+                  <option value="GO">Goiás</option>
+                  <option value="MA">Maranhão</option>
+                  <option value="MT">Mato Grosso</option>
+                  <option value="MS">Mato Grosso do Sul</option>
+                  <option value="MG">Minas Gerais</option>
+                  <option value="PA">Pará</option>
+                  <option value="PB">Paraíba</option>
+                  <option value="PR">Paraná</option>
+                  <option value="PE">Pernambuco</option>
+                  <option value="PI">Piauí</option>
+                  <option value="RJ">Rio de Janeiro</option>
+                  <option value="RN">Rio Grande do Norte</option>
+                  <option value="RS">Rio Grande do Sul</option>
+                  <option value="RO">Rondônia</option>
+                  <option value="RR">Roraima</option>
+                  <option value="SC">Santa Catarina</option>
+                  <option value="SP">São Paulo</option>
+                  <option value="SE">Sergipe</option>
+                  <option value="TO">Tocantins</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4>🏠 Sua Situação</h4>
+            <div class="form-group">
+              <label for="adoption-tipo-residencia">Tipo de Residência *</label>
+              <select id="adoption-tipo-residencia" required>
+                <option value="">Selecione...</option>
+                <option value="casa">Casa</option>
+                <option value="apartamento">Apartamento</option>
+                <option value="sítio">Sítio/Chácara</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="adoption-tem-quintal"
+                >Tem quintal/área externa? *</label
+              >
+              <select id="adoption-tem-quintal" required>
+                <option value="">Selecione...</option>
+                <option value="sim">Sim</option>
+                <option value="nao">Não</option>
+                <option value="pequeno">Pequeno</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="adoption-moradores">Número de moradores *</label>
+              <input
+                type="number"
+                id="adoption-moradores"
+                required
+                min="1"
+                placeholder="Ex: 3"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="adoption-criancas">Tem crianças em casa?</label>
+              <select id="adoption-criancas">
+                <option value="">Selecione...</option>
+                <option value="nao">Não</option>
+                <option value="0-5">0-5 anos</option>
+                <option value="6-12">6-12 anos</option>
+                <option value="acima-12">Acima de 12 anos</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="adoption-outros-pets">Tem outros pets?</label>
+              <select id="adoption-outros-pets">
+                <option value="">Selecione...</option>
+                <option value="nao">Não</option>
+                <option value="caes">Cães</option>
+                <option value="gatos">Gatos</option>
+                <option value="ambos">Cães e Gatos</option>
+                <option value="outros">Outros</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4>💭 Sua Experiência</h4>
+            <div class="form-group full-width">
+              <label for="adoption-experiencia"
+                >Já teve pets antes? Conte sua experiência *</label
+              >
+              <textarea
+                id="adoption-experiencia"
+                required
+                placeholder="Conte um pouco sobre sua experiência com animais de estimação..."
+              ></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="adoption-rotina">Como será a rotina do pet? *</label>
+              <textarea
+                id="adoption-rotina"
+                required
+                placeholder="Descreva como será o dia a dia do pet com você..."
+              ></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="adoption-motivacao"
+                >Por que quer adotar este pet? *</label
+              >
+              <textarea
+                id="adoption-motivacao"
+                required
+                placeholder="Compartilhe o que te motivou a escolher este pet..."
+              ></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="adoption-mensagem"
+                >Mensagem adicional (opcional)</label
+              >
+              <textarea
+                id="adoption-mensagem"
+                placeholder="Alguma informação adicional que gostaria de compartilhar..."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              class="cancel-btn"
+              onclick="closeAdoptionModal()"
+            >
+              <span>Cancelar</span>
+            </button>
+            <button type="submit" class="submit-btn">
+              <span>🎯 Enviar Pedido de Adoção</span>
+            </button>
+          </div>
+
+          <div class="form-footer">
+            <p>
+              📞 Entraremos em contato em até 24 horas para dar continuidade ao
+              processo.
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
